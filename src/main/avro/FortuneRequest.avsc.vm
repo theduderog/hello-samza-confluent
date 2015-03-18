@@ -1,0 +1,27 @@
+{
+  "name": "FortuneRequest",
+  "type": "record",
+  "namespace": "theduderog.schemas",
+  "doc": "A request of the seer to know one's fortune.",
+  "fields": [
+    {
+      "name": "header",
+      "type" : #include("src/main/avro/Headers.avsc")
+    },
+    {
+      "name": "first_name",
+      "type": "string",
+      "doc": "First name of requestor"
+    },
+    {
+      "name": "last_name",
+      "type": "string",
+      "doc": "Last name of requestor"
+    },
+    {
+      "name": "question",
+      "type": "string",
+      "doc": "Question being asked"
+    }
+  ]
+}

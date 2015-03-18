@@ -1,0 +1,37 @@
+{
+  "name": "Fortune",
+  "type": "record",
+  "namespace": "theduderog.schemas",
+  "doc": "A record of the seer fortelling the future",
+  "fields": [
+    {
+      "name": "header",
+      "type" : #include("src/main/avro/Headers.avsc")
+    },
+    {
+      "name": "first_name",
+      "type": "string",
+      "doc": "First name of requestor"
+    },
+    {
+      "name": "last_name",
+      "type": "string",
+      "doc": "Last name of requestor"
+    },
+    {
+      "name": "question",
+      "type": "string",
+      "doc": "Question being asked"
+    },
+    {
+      "name": "answer",
+      "type": "string",
+      "doc": "Your fortune"
+    },
+    {
+      "name": "degree_of_certainty",
+      "type": "double",
+      "doc": "Degree of certainty (0.0-1.0)"
+    }
+  ]
+}

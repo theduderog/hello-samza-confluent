@@ -1,0 +1,9 @@
+diff -Nru confluent.orig/bin/zookeeper-server-stop confluent/bin/zookeeper-server-stop
+--- confluent.orig/bin/zookeeper-server-stop	2015-03-08 22:10:59.000000000 -0700
++++ confluent/bin/zookeeper-server-stop	2015-03-08 22:11:20.000000000 -0700
+@@ -13,4 +13,4 @@
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+-ps ax | grep -i 'zookeeper' | grep -v grep | awk '{print $1}' | xargs kill -SIGINT
++ps ax | grep -i 'zookeeper.properties' | grep -v grep | awk '{print $1}' | xargs kill -SIGTERM

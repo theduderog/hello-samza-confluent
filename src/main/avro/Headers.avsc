@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "Headers",
+  "namespace" : "theduderog.schema",
+  "doc": "Common header metadata for all Avro messages",
+  "fields" : [
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Datetime when the event ocurred. Unit is milliseconds since epoch.  Note: this field is named and typed this way by Camus project (Kafka to HDFS) convention."
+    }
+  ]
+}
