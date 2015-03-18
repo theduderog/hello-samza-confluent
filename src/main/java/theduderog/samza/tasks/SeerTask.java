@@ -25,10 +25,10 @@ public class SeerTask implements StreamTask, InitableTask {
 
         String fortune = "Unknown";
         double certainty = 0.0;
-        if (request.getFirstName() == "Ragnar") {
+        if (request.getFirstName().equals("Ragnar")) {
             fortune = "The sons of Ragnar Lothbrok will be spoken of as long as men have tongues to speak.";
         }
-        else if (request.getFirstName() == "Lagartha") {
+        else if (request.getFirstName().equals("Lagartha")) {
             if (request.getQuestion().startsWith("Will")) {
                 fortune = "I cannot see another child no matter how far i look";
                 certainty = 0.5;
