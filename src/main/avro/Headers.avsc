@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "Headers",
-  "namespace" : "theduderog.schema",
+  "namespace" : "theduderog.schemas",
   "doc": "Common header metadata for all Avro messages",
   "fields" : [
     {

@@ -12,7 +12,7 @@ import java.util.Properties;
 public class AvroSerdeFactory implements SerdeFactory<Object> {
     @Override
     public AvroSerde getSerde(String s, Config config) {
-        final String registryUrl = config.get("rico.schema.registry.url");
+        final String registryUrl = config.get("confluent.schema.registry.url");
         final Properties encoderProps = new Properties();
         encoderProps.setProperty("schema.registry.url", registryUrl);
         final Properties decoderProps = new Properties();

@@ -1,5 +1,7 @@
 package theduderog.samza.tasks;
 
+import theduderog.schemas.*;
+
 import org.apache.samza.config.Config;
 import org.apache.samza.system.IncomingMessageEnvelope;
 import org.apache.samza.system.OutgoingMessageEnvelope;
@@ -19,33 +21,35 @@ public class SeerTask implements StreamTask, InitableTask {
     public void process(IncomingMessageEnvelope envelope, MessageCollector collector,
                         TaskCoordinator coordinator) throws Exception {
 
-        S2PerfEvent event = (FortuneQuestion) envelope.getMessage();
+        FortuneRequest request = (FortuneRequest) envelope.getMessage();
+
+        String fortune = "Unknown";
+        double certainty = 0.0;
+        if (request.getFirstName() == "Ragnar") {
+            fortune = "The sons of Ragnar Lothbrok will be spoken of as long as men have tongues to speak.";
+        }
+        else if (request.getFirstName() == "Lagartha") {
+            if (request.getQuestion().startsWith("Will")) {
+                fortune = "I cannot see another child no matter how far i look";
+                certainty = 0.5;
+            }
+            else {
+                fortune = "I see a harvest celebrated in blood. I see a trickster whose weapon cleaves you. I see a city made of marble and a burning, broiling ocean.";
+                certainty = 0.9;
+            }
+        }
+
         Headers header = Headers.newBuilder()
-                .setTimestamp(event.header.getTimestamp())
-                .setCreated("fake time")
+                .setTimestamp(request.header.getTimestamp())
                 .build();
-        S2PerfEnrichedEvent enriched = S2PerfEnrichedEvent.newBuilder()
+        Fortune fortuneRec = Fortune.newBuilder()
                 .setHeader(header)
-                .setReqDurationMs(event.getReqDurationMs())
-                .setReqStartTimestampUnix(event.getReqStartTimestampUnix())
-                .setSvcName(event.getSvcName())
-                .setSvrAppDomain("fakeDomain")
-                .setSvrBinary("fakeBinary")
-                .setSvrDatacenter("fakeDC")
-                .setSvrDbDomain("fakeDBDomain")
-                .setSvrEasi(event.getSvrEasi())
-                .setSvrHost(event.getSvrHost())
-                .setSvrLogicalDbName("fakeLogicalDbName")
-                .setSvrLogicalDbSvr("fakeLogicalDBSvr")
-                .setSvrMaxProcs(5)
-                .setSvrMinProcs(1)
-                .setSvrPhysicalDbName("fakeDBName")
-                .setSvrPhysicalDbSvr("fakeDbSvr")
-                .setSvrProcessId(99999L)
-                .setSvrProgram("fakeProgram")
-                .setSvrQueue("fakeQueue")
-                .setSvrWorkgroup("fakeWkgrp")
+                .setAnswer(fortune)
+                .setFirstName(request.getFirstName())
+                .setLastName(request.getLastName())
+                .setQuestion(request.getQuestion())
+                .setDegreeOfCertainty(certainty)
                 .build();
-        collector.send(new OutgoingMessageEnvelope(outStream, enriched));
+        collector.send(new OutgoingMessageEnvelope(outStream, fortuneRec));
     }
 }
