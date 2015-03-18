@@ -10,9 +10,9 @@ Testing integration of Samza with Avro + Confluent Platform
 ## Build
 
 	#Do this one time only
-	./bin/grid install
+	./bin/grid install all
 	
-	mvn package -Dmaven.test.skip=true && rm -rf deploy/samza && mkdir deploy/samza && tar -xvf ./target/s2-perf-0.0.1-dist.tar.gz -C deploy/samza
+	mvn package && rm -rf deploy/samza && mkdir deploy/samza && tar -xvf ./target/hello-samza-confluent-0.0.1-dist.tar.gz -C deploy/samza
 	
 ## Deployment
 
@@ -23,16 +23,16 @@ Testing integration of Samza with Avro + Confluent Platform
 	./bin/load-topics.sh
    
 	#View test data
-	./deploy/confluent/bin/kafka-avro-console-consumer --topic ops.svc_perf.s2__pk_8_host-easi-svc \
+	./deploy/confluent/bin/kafka-avro-console-consumer --topic questions \
              --zookeeper localhost:2181 \
              --property schema.registry.url=http://localhost:9081 \
              --from-beginning
              
 	#Run the main job
-	./bin/start-job.sh avro-test 
+	./bin/start-job.sh seer 
 
     #View result data
-    ./deploy/confluent/bin/kafka-avro-console-consumer --topic ops.svc_perf.s2_enriched \
+    ./deploy/confluent/bin/kafka-avro-console-consumer --topic fortunes \
              --zookeeper localhost:2181 \
              --property schema.registry.url=http://localhost:9081 \
              --from-beginning
