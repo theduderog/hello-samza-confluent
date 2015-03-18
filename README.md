@@ -22,7 +22,7 @@ Testing integration of Samza with Avro + Confluent Platform
 	./bin/create-topics.sh
 	./bin/load-topics.sh
    
-	#View test data
+	#View questions
 	./deploy/confluent/bin/kafka-avro-console-consumer --topic questions \
              --zookeeper localhost:2181 \
              --property schema.registry.url=http://localhost:9081 \
@@ -31,12 +31,8 @@ Testing integration of Samza with Avro + Confluent Platform
 	#Run the main job
 	./bin/start-job.sh seer 
 
-    #View result data
+    #View answers
     ./deploy/confluent/bin/kafka-avro-console-consumer --topic fortunes \
              --zookeeper localhost:2181 \
              --property schema.registry.url=http://localhost:9081 \
              --from-beginning
-
-
-# Caveats
-* Current Confluent Platform convention requires that all messages include a common header.  Using Apache velocity to include common headers.
