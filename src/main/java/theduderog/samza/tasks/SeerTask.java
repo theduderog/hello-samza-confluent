@@ -27,6 +27,7 @@ public class SeerTask implements StreamTask, InitableTask {
         double certainty = 0.0;
         if (request.getFirstName().equals("Ragnar")) {
             fortune = "The sons of Ragnar Lothbrok will be spoken of as long as men have tongues to speak.";
+            certainty = 1.0;
         }
         else if (request.getFirstName().equals("Lagartha")) {
             if (request.getQuestion().startsWith("Will")) {
