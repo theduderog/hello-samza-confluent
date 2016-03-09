@@ -1,5 +1,9 @@
 package theduderog.samza.tasks;
 
+import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.specific.SpecificData;
+import theduderog.samza.serializers.AvroSerde;
+import theduderog.samza.serializers.AvroSerdeFactory;
 import theduderog.schemas.*;
 
 import org.apache.samza.config.Config;
@@ -9,11 +13,13 @@ import org.apache.samza.system.SystemStream;
 import org.apache.samza.task.*;
 
 public class SeerTask implements StreamTask, InitableTask {
+    private AvroSerde avroSerde;
     private SystemStream outStream;
 
     @Override
     public void init(Config cfg, TaskContext ctxt) throws Exception {
         String outTopic = cfg.get("out");
+        avroSerde = new AvroSerdeFactory().getSerde("avro", cfg);
         outStream = new SystemStream("kafka", outTopic);
     }
 
@@ -21,7 +27,9 @@ public class SeerTask implements StreamTask, InitableTask {
     public void process(IncomingMessageEnvelope envelope, MessageCollector collector,
                         TaskCoordinator coordinator) throws Exception {
 
-        FortuneRequest request = (FortuneRequest) envelope.getMessage();
+        GenericRecord genericRecord = (GenericRecord) envelope.getMessage();
+
+        FortuneRequest request = (FortuneRequest) SpecificData.get().deepCopy(FortuneRequest.SCHEMA$, genericRecord);
 
         String fortune = "Unknown";
         double certainty = 0.0;
@@ -29,8 +37,8 @@ public class SeerTask implements StreamTask, InitableTask {
             fortune = "The sons of Ragnar Lothbrok will be spoken of as long as men have tongues to speak.";
             certainty = 1.0;
         }
-        else if (request.getFirstName().equals("Lagartha")) {
-            if (request.getQuestion().startsWith("Will")) {
+        else if (request.getFirstName().toString().equals("Lagartha")) {
+            if (request.getQuestion().toString().startsWith("Will")) {
                 fortune = "I cannot see another child no matter how far i look";
                 certainty = 0.5;
             }
