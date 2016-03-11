@@ -2,8 +2,6 @@ package theduderog.samza.tasks;
 
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.specific.SpecificData;
-import theduderog.samza.serializers.AvroSerde;
-import theduderog.samza.serializers.AvroSerdeFactory;
 import theduderog.schemas.*;
 
 import org.apache.samza.config.Config;
@@ -13,13 +11,11 @@ import org.apache.samza.system.SystemStream;
 import org.apache.samza.task.*;
 
 public class SeerTask implements StreamTask, InitableTask {
-    private AvroSerde avroSerde;
     private SystemStream outStream;
 
     @Override
     public void init(Config cfg, TaskContext ctxt) throws Exception {
         String outTopic = cfg.get("out");
-        avroSerde = new AvroSerdeFactory().getSerde("avro", cfg);
         outStream = new SystemStream("kafka", outTopic);
     }
 
