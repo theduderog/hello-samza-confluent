@@ -22,6 +22,7 @@ import org.apache.samza.container.SamzaContainerContext;
 import org.apache.samza.container.TaskName;
 import org.apache.samza.metrics.MetricsRegistry;
 import org.apache.samza.metrics.MetricsRegistryMap;
+import org.apache.samza.storage.kv.KeyValueStore;
 import org.apache.samza.system.SystemStreamPartition;
 import org.apache.samza.task.TaskContext;
 import org.apache.samza.config.Config;
@@ -47,13 +48,13 @@ import java.util.ArrayList;
 public class InMemoryTaskContext<K, V> implements TaskContext {
     private MetricsRegistry registry;
     private Set<SystemStreamPartition> systemStreamPartitions;
-    private Map store;
+    private KeyValueStore<K, V> store;
     private TaskName taskName;
     private SamzaContainerContext containerContext;
     private static final Logger log = LoggerFactory.getLogger(InMemoryTaskContext.class);
 
     public InMemoryTaskContext(String classTaskName, Config config) {
-        store = new HashMap<K, V>();
+        store = new InMemoryKVTestStore<K, V>();
         registry = new MetricsRegistryMap();
         systemStreamPartitions = new HashSet<SystemStreamPartition>();
         taskName = new TaskName(classTaskName);
@@ -70,7 +71,7 @@ public class InMemoryTaskContext<K, V> implements TaskContext {
         return systemStreamPartitions;
     }
 
-    public Map<K, V> getStore(String name) {
+    public KeyValueStore<K, V> getStore(String name) {
         return store;
     }
 
