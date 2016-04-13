@@ -20,9 +20,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <samza.version>0.10.0</samza.version>
     <avro.version>1.7.7</avro.version>
-    <confluent.version>1.0.1</confluent.version>
+    <confluent.version>2.0.1</confluent.version>
     <kafka.version>0.8.2.2</kafka.version>
-    <jackson.version>1.8.5</jackson.version>
+    <jackson.version>1.9.13</jackson.version>
   </properties>
 
   <dependencies>
