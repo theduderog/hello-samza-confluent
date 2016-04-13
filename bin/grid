@@ -35,8 +35,8 @@ DOWNLOAD_CACHE_DIR=$HOME/.samza/download
 COMMAND=$1
 SYSTEM=$2
 
-DOWNLOAD_CONFLUENT=http://packages.confluent.io/archive/1.0/confluent-1.0-2.10.4.tar.gz
-DOWNLOAD_YARN=https://archive.apache.org/dist/hadoop/common/hadoop-2.4.0/hadoop-2.4.0.tar.gz
+DOWNLOAD_CONFLUENT=http://packages.confluent.io/archive/2.0/confluent-2.0.1-2.11.7.tar.gz
+DOWNLOAD_YARN=http://archive.apache.org/dist/hadoop/common/hadoop-2.6.1/hadoop-2.6.1.tar.gz
 
 bootstrap() {
   echo "Bootstrapping the system..."
@@ -68,10 +68,8 @@ install_confluent() {
   echo "INSTALL CONFLUENT"
   mkdir -p "$DEPLOY_ROOT_DIR"
   install confluent $DOWNLOAD_CONFLUENT confluent-2.0.1
-  patch -p1 -d $DEPLOY_ROOT_DIR/confluent < $BASE_DIR/conf/confluent/fix_log_path.patch
   patch -p1 -d $DEPLOY_ROOT_DIR/confluent < $BASE_DIR/conf/confluent/zk-stop.patch
   patch -p1 -d $DEPLOY_ROOT_DIR/confluent < $BASE_DIR/conf/confluent/schema-registry-port.patch
-  patch -p1 -d $DEPLOY_ROOT_DIR/confluent < $BASE_DIR/conf/confluent/daemon.patch
   #rhoover: disable auto topic creation
   echo "auto.create.topics.enable=false" >> $DEPLOY_ROOT_DIR/confluent/etc/kafka/server.properties
 }
@@ -98,6 +96,7 @@ start_all() {
   $DIR/grid start zookeeper
   #$DIR/grid start yarn
   $DIR/grid start kafka
+  sleep 3
   $DIR/grid start schemaregistry
 }
 
