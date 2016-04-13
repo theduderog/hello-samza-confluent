@@ -96,6 +96,7 @@ start_all() {
   $DIR/grid start zookeeper
   #$DIR/grid start yarn
   $DIR/grid start kafka
+  #We need to add a sleep to allow kafka to start before starting schemaregistry otherwise a connect exception is thrown
   sleep 3
   $DIR/grid start schemaregistry
 }
