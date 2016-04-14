@@ -18,6 +18,8 @@
 */
 package org.apache.samza.test.harness;
 
+import org.apache.samza.storage.kv.KeyValueStorageEngine;
+import org.apache.samza.storage.kv.KeyValueStore;
 import org.apache.samza.system.IncomingMessageEnvelope;
 import org.apache.samza.task.MessageCollector;
 import org.apache.samza.task.TaskContext;
@@ -173,5 +175,9 @@ public class TaskUnitTestHarness<K, V> {
 
     public List<OutgoingMessageEnvelope> getResult() {
         return messageCollector.getMessages();
+    }
+
+    public KeyValueStore getKVStore() {
+        return taskContext.getStore("");
     }
 }

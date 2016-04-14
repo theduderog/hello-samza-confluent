@@ -18,6 +18,7 @@
  */
 package org.apache.samza.test.harness;
 
+import org.apache.samza.storage.kv.KeyValueStore;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,7 +46,7 @@ public class InMemoryTaskContextTest {
 
     @Test
     public void testStore() {
-        Map<String, String> store = taskContext.getStore(testString);
+        KeyValueStore<String, String> store = taskContext.getStore(testString);
         store.put(testString, testString);
         assertEquals(taskContext.getStore(testString).get(testString), store.get(testString));
     }
