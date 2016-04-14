@@ -121,6 +121,7 @@ wait_kafka() {
     printf '.'
     sleep 1
   done
+  printf '\n'
   echo "Kafka broker is listening";
 }
 
