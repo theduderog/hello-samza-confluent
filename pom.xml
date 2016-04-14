@@ -20,9 +20,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <samza.version>0.10.0</samza.version>
     <avro.version>1.7.7</avro.version>
-    <confluent.version>1.0.1</confluent.version>
-    <kafka.version>0.8.2.2</kafka.version>
-    <jackson.version>1.8.5</jackson.version>
+    <confluent.version>2.0.1</confluent.version>
+    <kafka.version>0.8.2.2</kafka.version> 
+    <jackson.version>1.9.13</jackson.version>
+    <hadoop.version>2.6.1</hadoop.version>
   </properties>
 
   <dependencies>
@@ -90,6 +91,11 @@
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-asl</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
       <version>${jackson.version}</version>
     </dependency>
     <dependency>
