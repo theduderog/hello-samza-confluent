@@ -96,8 +96,6 @@ start_all() {
   $DIR/grid start zookeeper
   #$DIR/grid start yarn
   $DIR/grid start kafka
-  #We need to add a sleep to allow kafka to start before starting schemaregistry otherwise a connect exception is thrown
-  sleep 3
   $DIR/grid start schemaregistry
 }
 
@@ -117,10 +115,21 @@ start_kafka() {
   fi
 }
 
+wait_kafka() {
+  echo "Waiting for kafka broker to start..."
+  until $(nc -w 2 localhost 9092); do
+    printf '.'
+    sleep 1
+  done
+  printf '\n'
+  echo "Kafka broker is listening";
+}
+
 start_schemaregistry() {
   if [ -f $DEPLOY_ROOT_DIR/confluent/bin/schema-registry-start ]; then
     mkdir -p $DEPLOY_ROOT_DIR/$SYSTEM/logs
     pushd $DEPLOY_ROOT_DIR/$SYSTEM/logs
+      wait_kafka
       $DEPLOY_ROOT_DIR/confluent/bin/schema-registry-start -daemon $DEPLOY_ROOT_DIR/confluent/etc/schema-registry/schema-registry.properties
     popd
   else
